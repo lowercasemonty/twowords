@@ -9,11 +9,25 @@ class Laptop(DeviceItem):
         self.brand = brand
         self.available = True
 
+    def __str__(self):
+        
+        if self.available == True:
+            availability = "Available"
+        elif self.available == False:
+            availability = "Not Available"
+
+        laptop_name = f"{self.brand} {self.model_name}"
+        
+        return f"{self.laptop_id:<4} {laptop_name:<21} {availability}"
+
 class Student:
     def __init__(self, student_id, name):
         self.student_id = student_id
         self.name = name
         self.borrowed_laptops = []
+
+    def __str__(self):
+        return f"{self.student_id} - {self.name}"
 
 class LaptopLoanDesk:
     def __init__(self):
@@ -41,13 +55,9 @@ class LaptopLoanDesk:
         return laptop
 
     def search_laptop_by_model(self, model_name):
-        return [laptop for laptop in self.laptops if laptop.model_name == model_name]
-
-    def search_laptop_by_id(self, laptop_id):
         for laptop in self.laptops:
-            if laptop.laptop_id == laptop_id:
-                return laptop
-        return None
+            if laptop.model_name == model_name:
+        return laptop
 
     def show_students(self):
         return self.students
@@ -94,9 +104,10 @@ while True:
     match selection:
         # Show laptops
         case 1:
-            laptop = desk.show_laptops()
-            for item in laptop:
-                print(item)
+            print(f"ID   Laptop Model          Availability")
+            laptops = desk.show_laptops()
+            for laptop in laptops:
+                print(laptop)
         
         #Add laptop
         case 2:
