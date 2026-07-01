@@ -10,7 +10,6 @@ class Laptop(DeviceItem):
         self.available = True
 
     def __str__(self):
-        
         if self.available == True:
             availability = "Available"
         elif self.available == False:
@@ -38,6 +37,7 @@ class LaptopLoanDesk:
             Laptop(4, "Apple", "MacBook Air"),
             Laptop(5, "Asus", "Vivobook")
         ]
+        
         self.students = [
             Student(1001, "Alice"),
             Student(1002, "Bob"),
@@ -57,13 +57,16 @@ class LaptopLoanDesk:
     def search_laptop_by_model(self, model_name):
         for laptop in self.laptops:
             if laptop.model_name == model_name:
-        return laptop
+                result_laptop = laptop
+                return result_laptop
+        result_laptop = 0
+        return result_laptop
 
     def show_students(self):
         return self.students
 
-    def add_student(self, student_id, name):
-        student = Student(student_id, name)
+    def add_student(self, name):
+        student = Student(len(self.students) + 1, name)
         self.students.append(student)
         return student
 
@@ -104,7 +107,7 @@ while True:
     match selection:
         # Show laptops
         case 1:
-            print(f"ID   Laptop Model          Availability")
+            print("ID   Laptop Model          Availability")
             laptops = desk.show_laptops()
             for laptop in laptops:
                 print(laptop)
@@ -119,15 +122,25 @@ while True:
         # Search laptop by model name
         case 3:
             model_name = input("Enter model name: ")
-            print(desk.search_laptop_by_model(model_name))
+            result_laptop = desk.search_laptop_by_model(model_name)
+            if result_laptop == 0:
+                print("Model does not exist or is not available.")
+            else:
+                print(result_laptop)
         
         # Show list of registered students
         case 4:
-            print(desk.show_students())
+            print("ID  Name")
+            students = desk.show_students()
+            for student in students:
+                print(student)
         
         # Add a new student
         case 5:
-            desk.add_student()
+            name = input("Enter student name: ")
+            student = desk.add_student(name)
+            print("Student has been added!")
+            print(f"New student: {student}")
         
         # Search student by ID
         case 6:
